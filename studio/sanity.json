@@ -1,10 +1,10 @@
 {
   "root": true,
   "project": {
-    "name": "twitter-clone"
+    "name": "status200"
   },
   "api": {
-    "projectId": "kfzwap55",
+    "projectId": "k98k4ewj",
     "dataset": "production"
   },
   "plugins": [
