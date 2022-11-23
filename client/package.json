@@ -1,5 +1,5 @@
 {
-  "name": "twitter-web3",
+  "name": "status",
   "private": true,
   "scripts": {
     "dev": "next dev",
