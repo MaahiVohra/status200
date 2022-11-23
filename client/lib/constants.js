@@ -1,7 +1,7 @@
 import ProfileImageMinterContractAbi from "./ProfileImageNfts.json";
 
 export const contractABI = ProfileImageMinterContractAbi.abi;
-export const contractAddress = "0x69Ba0c87fb724e3CeF210738C21760dB8c5e2F7f";
+export const contractAddress = "0x1245906845ba5aAB98a2086770798DdC8c1A0DA8";
 
 export const customStyles = {
 	content: {
