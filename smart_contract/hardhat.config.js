@@ -1,13 +1,13 @@
-require('@nomiclabs/hardhat-waffle')
+require("@nomiclabs/hardhat-waffle");
 
 module.exports = {
-  solidity: '0.8.2',
-  networks: {
-    rinkeby: {
-      url: 'https://eth-rinkeby.alchemyapi.io/v2/_cqfxl5yx4HFvVpPh0HgNOwKHpYANpiX',
-      accounts: [
-        'f2679263aadf9db7949246a5265f7cf0b0aece610ba4d84dcfc9304ccd050d0c',
-      ],
-    },
-  },
-}
+	solidity: "0.8.2",
+	networks: {
+		goerli: {
+			url: "https://eth-goerli.g.alchemy.com/v2/khrf9mtb_KAZ5uOXCqiJ4Gxvvckh7dFl",
+			accounts: [
+				"4468b2415a5b6ab28781d3e1a9ec93ef69a91ad37ef24133cd6d861df84cfce0",
+			],
+		},
+	},
+};
