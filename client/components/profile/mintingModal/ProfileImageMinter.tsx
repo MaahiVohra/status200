@@ -70,12 +70,6 @@ const ProfileImageMinter = () => {
 
 		const ipfsImageHash = await pinFileToIPFS(profileImage, pinataMetaData);
 
-		await client
-			.patch(currentAccount)
-			.set({ profileImage: ipfsImageHash })
-			.set({ isProfileImageNft: true })
-			.commit();
-
 		const imageMetaData: Metadata = {
 			name: name,
 			description: description,
@@ -83,7 +77,7 @@ const ProfileImageMinter = () => {
 		};
 
 		const ipfsJsonHash = await pinJSONToIPFS(imageMetaData);
-
+		let flag = false;
 		try {
 			const contract = await getEthereumContract();
 
@@ -99,10 +93,19 @@ const ProfileImageMinter = () => {
 				method: "eth_sendTransaction",
 				params: [transactionParameters],
 			});
-
+			flag = true;
 			setStatus("finished");
 		} catch (error: any) {
+			flag = false;
 			setStatus("failed");
+		}
+		{
+			flag &&
+				(await client
+					.patch(currentAccount)
+					.set({ profileImage: ipfsImageHash })
+					.set({ isProfileImageNft: flag })
+					.commit());
 		}
 	};
 
