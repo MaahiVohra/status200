@@ -48,44 +48,53 @@ const Home = () => {
 	);
 
 	const noUserFound = (
-		<div className="">
-			<Image src={metamaskLogo} width={200} height={200} />
-			<div className="" onClick={() => connectWallet()}>
-				Connect Wallet
+		<div className="flex justify-center text-center font-semibold h-screen items-center">
+			<div>
+				<Image src={metamaskLogo} width={200} height={200} />
+				<div
+					className="bg-white rounded-2xl p-2"
+					onClick={() => connectWallet()}
+				>
+					Connect Wallet
+				</div>
+				<div className="text-white p-2">Connect to Metamask.</div>
 			</div>
-			<div className="">Connect to Metamask.</div>
 		</div>
 	);
 
 	const noMetaMaskFound = (
-		<div className="">
-			<Image src={metamaskLogo} width={200} height={200} />
-			<div className="">
-				<a
-					target="_blank"
-					rel="noreferrer"
-					href={`https://metamask.io/download.html`}
-				>
-					You must install Metamask, a <br /> virtual Ethereum wallet,
-					in your browser.
-				</a>
+		<div className="flex justify-center text-center font-semibold h-screen items-center">
+			<div>
+				<Image src={metamaskLogo} width={200} height={200} />
+				<div className="bg-white rounded-2xl p-2">
+					<a
+						target="_blank"
+						rel="noreferrer"
+						href={`https://metamask.io/download.html`}
+					>
+						You must install Metamask, a <br /> virtual Ethereum
+						wallet, in your browser.
+					</a>
+				</div>
 			</div>
 		</div>
 	);
 
 	const error = (
-		<div className="">
-			<Image src={errorImg} width={250} height={200} />
-			<div className="">
-				An error occurred. Please try again later or from another
-				browser.
+		<div className="flex justify-center text-center font-semibold h-screen items-center">
+			<div>
+				<Image src={errorImg} width={250} height={200} />
+				<div className="">
+					An error occurred. Please try again later or from another
+					browser.
+				</div>
 			</div>
 		</div>
 	);
 
 	const loading = (
-		<div className="">
-			<div className="">Loading...</div>
+		<div className="flex justify-center text-center font-semibold h-screen items-center">
+			<div className="text-white">Loading...</div>
 		</div>
 	);
 

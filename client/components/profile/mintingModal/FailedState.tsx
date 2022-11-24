@@ -22,7 +22,7 @@ const FinishedState = () => {
 	return (
 		<div className={style.wrapper}>
 			<div className={style.title}>Minting Unsuccessful!</div>
-			<p className={style.para}>Profile Image Updated</p>
+			<p className={style.para}>Try again after adding some ETH's</p>
 			<Image src={error} alt="checkmark" height={100} width={100} />
 			<div onClick={() => router.push("/")} className={style.closeButton}>
 				Close

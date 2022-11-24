@@ -102,12 +102,12 @@ export const TwitterProvider = ({ children }) => {
 	 * @returns A full URL to the profile picture
 	 */
 	const getNftProfileImage = async (imageUri, isNft) => {
-		if (isNft) {
-			return `https://gateway.pinata.cloud/ipfs/${imageUri}`;
-		} else if (!isNft) {
-			return imageUri;
-		}
-		// return `https://gateway.pinata.cloud/ipfs/${imageUri}`;
+		// if (isNft) {
+		// 	return `https://gateway.pinata.cloud/ipfs/${imageUri}`;
+		// } else if (!isNft) {
+		// 	return imageUri;
+		// }
+		return `https://gateway.pinata.cloud/ipfs/${imageUri}`;
 	};
 
 	/**
@@ -137,22 +137,22 @@ export const TwitterProvider = ({ children }) => {
 				item.author.isProfileImageNft
 			);
 
-			if (item.author.isProfileImageNft) {
-				const newItem = {
-					tweet: item.tweet,
-					timestamp: item.timestamp,
-					author: {
-						name: item.author.name,
-						walletAddress: item.author.walletAddress,
-						profileImage: profileImageUrl,
-						isProfileImageNft: item.author.isProfileImageNft,
-					},
-				};
+			// if (item.author.isProfileImageNft) {
+			const newItem = {
+				tweet: item.tweet,
+				timestamp: item.timestamp,
+				author: {
+					name: item.author.name,
+					walletAddress: item.author.walletAddress,
+					profileImage: profileImageUrl,
+					isProfileImageNft: item.author.isProfileImageNft,
+				},
+			};
 
-				setTweets((prevState) => [...prevState, newItem]);
-			} else {
-				setTweets((prevState) => [...prevState, item]);
-			}
+			setTweets((prevState) => [...prevState, newItem]);
+			// } else {
+			// 	setTweets((prevState) => [...prevState, item]);
+			// }
 		});
 	};
 
