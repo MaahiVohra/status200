@@ -8,7 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@alch/alchemy-web3": "^1.2.3",
+    "@alch/alchemy-web3": "^1.4.7",
     "@sanity/client": "^3.0.4",
     "@types/react-modal": "^3.13.1",
     "axios": "^0.25.0",
