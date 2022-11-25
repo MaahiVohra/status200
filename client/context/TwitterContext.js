@@ -1,9 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { client } from "../lib/client";
-
+import { paymentContractAddress } from "../lib/constants";
+const abi = require("../lib/constants");
+const paymentContractABI = abi.paymentContractABI;
+import Web3 from "web3";
 export const TwitterContext = createContext();
-
+const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 export const TwitterProvider = ({ children }) => {
 	const [appStatus, setAppStatus] = useState("");
 	const [currentAccount, setCurrentAccount] = useState("");
@@ -114,15 +117,113 @@ export const TwitterProvider = ({ children }) => {
 	 * Gets all the tweets stored in Sanity DB.
 	 */
 	const fetchTweets = async () => {
-		const query = `
-      *[_type == "tweets"]{
-        "author": author->{name, walletAddress, profileImage, isProfileImageNft},
-        tweet,
-        timestamp
-      }|order(timestamp desc)
-    `;
+		// var id = "messagepart" + a.id;
+		console.log(paymentContractABI);
+		const web3 = createAlchemyWeb3(
+			"https://eth-goerli.g.alchemy.com/v2/khrf9mtb_KAZ5uOXCqiJ4Gxvvckh7dFl"
+		);
+		// let web3 = new Web3(
+		// 	new Web3.providers.HttpProvider(
+		// 		"https://eth-goerli.g.alchemy.com/v2/khrf9mtb_KAZ5uOXCqiJ4Gxvvckh7dFl"
+		// 	)
+		// );
+		const mycontract = new web3.eth.Contract(
+			paymentContractABI,
+			paymentContractAddress
+		);
 
-		// setTweets(await client.fetch(query))
+		// await mycontract.getPastEvents(
+		// 	"message",
+		// 	{
+		// 		fromBlock: 0,
+		// 		toBlock: "latest",
+		// 	},
+		// 	function (err, data) {
+		// 		console.log(data);
+		// 		if (data.length > 0) {
+		// 			data.returnValues.map((item) => {
+		// 				// if (item.author.isProfileImageNft) {
+		// 				const newItem = {
+		// 					tweet: item.message,
+		// 					timestamp: item.timestamp,
+		// 					author: {
+		// 						name: "Maahi",
+		// 						walletAddress: currentAccount,
+		// 						profileImage: null,
+		// 						isProfileImageNft: true,
+		// 						// name: item.author.name,
+		// 						// walletAddress: item.author.walletAddress,
+		// 						// profileImage: profileImageUrl,
+		// 						// isProfileImageNft: item.author.isProfileImageNft,
+		// 					},
+		// 				};
+		// let x = data.length;
+		// document.getElementById(id).innerHTML = "";
+		// for (var n = 0; n < x; n++) {
+		// 	var timestamp = 0;
+
+		// 	if (data[n].returnValues.from == a.id) {
+		// 		if (data[n].returnValues.to == myaccount) {
+		// 			var timestamp = data[n].returnValues.time;
+		// 			var decoration =
+		// 				'<div class="row justify-content-end">' +
+		// 				'<div class="col-4 col-md-auto">' +
+		// 				'<div class="alert alert-dark" role="alert">' +
+		// 				data[n].returnValues.message +
+		// 				'<h6 style="font-size: 0.6em;">recieved ' +
+		// 				data[n].returnValues.timestamp +
+		// 				"</h6>" +
+		// 				"</div>" +
+		// 				"</div>" +
+		// 				"</div>";
+		// 			document.getElementById(id).innerHTML +=
+		// 				decoration;
+		// 		}
+		// 	}
+		// 	if (data[n].returnValues.to == a.id) {
+		// 		if (data[n].returnValues.from == myaccount) {
+		// 			var timestamp = data[n].returnValues.time;
+
+		// 			var decoration =
+		// 				'<div class="row justify-content-start">' +
+		// 				'<div class="col-4 col-md-auto">' +
+		// 				'<div class="alert alert-primary" role="alert">' +
+		// 				data[n].returnValues.message +
+		// 				'<h6 style="font-size: 0.6em;">send ' +
+		// 				data[n].returnValues.timestamp +
+		// 				"</h6>" +
+		// 				"</div>" +
+		// 				"</div>" +
+		// 				"</div>";
+		// 			document.getElementById(id).innerHTML +=
+		// 				decoration;
+		// 		}
+		// 		//console.log('FROM:'+data[n].returnValues.from+'--'+data[n].returnValues.message+'--'+data[n].returnValues.to);
+		// 	}
+		// }
+		// document.getElementById(id).innerHTML +=
+		// 	'<div class="input-group mb-0" id="groupinputbutton' +
+		// 	a.id +
+		// 	'">' +
+		// 	'<input type="text" class="form-control" placeholder="Type message" id="inputbutton' +
+		// 	a.id +
+		// 	'"aria-label="Recipien username" aria-describedby="button-addon2" />' +
+		// 	'<button class="btn btn-warning" type="button" onclick=onSend(this) id="button' +
+		// 	a.id +
+		// 	'" style="padding-top: .55rem;">' +
+		// 	"Send" +
+		// 	"</button>" +
+		// 	"</div>";
+		// });
+		const query = `
+					  *[_type == "tweets"]{
+					    "author": author->{name, walletAddress, profileImage, isProfileImageNft},
+					    tweet,
+					    timestamp
+					  }|order(timestamp desc)
+					`;
+
+		setTweets(await client.fetch(query));
 
 		const sanityResponse = await client.fetch(query);
 
@@ -131,29 +232,32 @@ export const TwitterProvider = ({ children }) => {
 		/**
 		 * Async await not available with for..of loops.
 		 */
-		sanityResponse.forEach(async (item) => {
-			const profileImageUrl = await getNftProfileImage(
-				item.author.profileImage,
-				item.author.isProfileImageNft
-			);
+		sanityResponse.forEach(
+			async (item) => {
+				const profileImageUrl = await getNftProfileImage(
+					item.author.profileImage,
+					item.author.isProfileImageNft
+				);
 
-			// if (item.author.isProfileImageNft) {
-			const newItem = {
-				tweet: item.tweet,
-				timestamp: item.timestamp,
-				author: {
-					name: item.author.name,
-					walletAddress: item.author.walletAddress,
-					profileImage: profileImageUrl,
-					isProfileImageNft: item.author.isProfileImageNft,
-				},
-			};
+				// if (item.author.isProfileImageNft) {
+				const newItem = {
+					tweet: item.tweet,
+					timestamp: item.timestamp,
+					author: {
+						name: item.author.name,
+						walletAddress: item.author.walletAddress,
+						profileImage: profileImageUrl,
+						isProfileImageNft: item.author.isProfileImageNft,
+					},
+				};
+				setTweets((prevState) => [...prevState, newItem]);
 
-			setTweets((prevState) => [...prevState, newItem]);
-			// } else {
-			// 	setTweets((prevState) => [...prevState, item]);
+				// } else {
+				// 	setTweets((prevState) => [...prevState, item]);
+				// }
+			}
 			// }
-		});
+		);
 	};
 
 	/**
