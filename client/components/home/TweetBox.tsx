@@ -173,7 +173,7 @@ function TweetBox() {
 						>
 							Post
 						</button>
-						<div>Post cooldown:</div>
+						{/* <div>Post cooldown:</div> */}
 					</div>
 				</form>
 			</div>
